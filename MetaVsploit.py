@@ -1,68 +1,133 @@
+# -*- coding: utf-8 -*-
+
+# Importing necessary libraries
 import os
 import time
 import sys
+import subprocess
 
-def مسح_الشاشة():
+# Function to clear the screen based on the operating system
+def clear_screen():
     os.system("clear" if os.name == "posix" else "cls")
 
-def طباعة_بطيئة(النص, تأخير=0.02):
-    for حرف in النص + '\n':
-        sys.stdout.write(حرف)
+# Function for slow printing to give a cinematic effect
+def slow_print(text, delay=0.02):
+    for char in text + '\n':
+        sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(تأخير)
+        time.sleep(delay)
 
-def سجل(نص):
-    with open("سجل_التثبيت.txt", "a", encoding="utf-8") as f:
-        f.write(نص + "\n")
+# Function to log installation activities to a file
+def log_activity(text):
+    with open("installation_log.txt", "a", encoding="utf-8") as f:
+        f.write(text + "\n")
 
-def البانر():
-    os.system("pkg install figlet -y > /dev/null 2>&1")
+# Function to display the main banner
+def display_banner():
+    # Install figlet if it's not already installed
+    subprocess.run(["pkg", "install", "figlet", "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     os.system("figlet HATAN HACKER")
     print("\033[92m" + "-" * 50)
-    طباعة_بطيئة("🔥 أداة تثبيت Metasploit والأدوات المساعدة 🔥")
-    طباعة_بطيئة("👨‍💻 المطور: HATAN HACKER")
+    slow_print("🔥 أداة تثبيت Metasploit والأدوات المساعدة 🔥")
+    slow_print("👨‍💻 المطور: HATAN HACKER")
     print("-" * 50)
 
-def التحذير():
+# Function to display a warning and important notes
+def display_warning():
     print("\033[91m" + "*" * 40)
-    طباعة_بطيئة("⚠️  ملاحظة من HATAN HACKER:")
-    طباعة_بطيئة("🚫 لا تقم بتثبيت أدوات Bash خارجية.")
-    طباعة_بطيئة("✅ تأكد من وجود مساحة وإنترنت جيد.")
-    طباعة_بطيئة("🤖 الأداة موثوقة ومجربة من قبل HATAN HACKER.")
+    slow_print("⚠️  ملاحظة من HATAN HACKER:")
+    slow_print("🚫 لا تقم بتثبيت أدوات Bash خارجية.")
+    slow_print("✅ تأكد من وجود مساحة وإنترنت جيد.")
+    slow_print("🤖 الأداة موثوقة ومجربة من قبل HATAN HACKER.")
     print("*" * 40 + "\n")
 
-def القائمة():
+# Function to display the main menu options
+def display_menu():
     print("\033[96m📋 القائمة الرئيسية:")
     print("1 - تثبيت Metasploit")
     print("2 - تثبيت أدوات إضافية")
     print("3 - عرض سجل التثبيت")
     print("4 - الخروج\n")
 
-def تثبيت_msf():
-    مسح_الشاشة()
-    طباعة_بطيئة("⏳ جاري تحديث الحزم ...")
+# Function to handle Metasploit installation
+def install_metasploit():
+    clear_screen()
+    slow_print("⏳ جاري تحديث الحزم ...")
     os.system("pkg update -y && pkg upgrade -y")
     os.system("pkg install unstable-repo x11-repo -y")
-    طباعة_بطيئة("📦 جاري تثبيت Metasploit ...")
+    slow_print("📦 جاري تثبيت Metasploit ...")
     os.system("pkg install metasploit -y")
-    طباعة_بطيئة("✅ تم التثبيت بنجاح!")
-    طباعة_بطيئة("🔓 بإشراف وتطوير: HATAN HACKER")
-    سجل("✅ [Metasploit] تم التثبيت بنجاح بواسطة HATAN HACKER")
-    طباعة_بطيئة("🚀 سيتم تشغيل Metasploit الآن...")
+    slow_print("✅ تم التثبيت بنجاح!")
+    slow_print("🔓 بإشراف وتطوير: HATAN HACKER")
+    log_activity("✅ [Metasploit] تم التثبيت بنجاح بواسطة HATAN HACKER")
+    slow_print("🚀 سيتم تشغيل Metasploit الآن...")
     os.system("msfconsole")
 
-def تثبيت_ادوات_اضافية():
-    الادوات = {
+# Function to handle installation of additional tools
+def install_additional_tools():
+    tools = {
         "1": ("nmap", "أداة فحص الشبكات"),
         "2": ("sqlmap", "أداة اختبار قواعد البيانات"),
         "3": ("hydra", "أداة تخمين كلمات المرور"),
         "4": ("wireshark", "تحليل حزم الشبكة"),
-        "5": ("عودة", "")
+        "5": ("back", "الرجوع")
     }
 
     while True:
         print("\033[95m🔧 اختر الأداة لتثبيتها:\n")
-        for رقم, (اسم, وصف) in الادوات.items():
+        for num, (name, desc) in tools.items():
+            if name != "back":
+                print(f"{num} - {name} - {desc}")
+            else:
+                print(f"{num} - الرجوع إلى القائمة الرئيسية")
+
+        choice = input("\nأدخل رقم الأداة: ").strip()
+
+        if choice in tools and choice != "5":
+            tool_name = tools[choice][0]
+            slow_print(f"📥 جاري تثبيت {tool_name} ...")
+            os.system(f"pkg install {tool_name} -y")
+            slow_print(f"✅ تم تثبيت {tool_name} بنجاح!")
+            log_activity(f"✅ [{tool_name}] تم التثبيت بنجاح بواسطة HATAN HACKER")
+        elif choice == "5":
+            break
+        else:
+            print("\033[91m[!] خيار غير صحيح. حاول مرة أخرى.\n")
+
+# Function to display the installation log
+def view_log():
+    try:
+        with open("installation_log.txt", "r", encoding="utf-8") as f:
+            print("\n📄 سجل التثبيت:\n")
+            print(f.read())
+    except FileNotFoundError:
+        print("\n⚠️ لا يوجد سجل حتى الآن.\n")
+
+# Main function of the program
+def main():
+    clear_screen()
+    display_banner()
+    display_warning()
+
+    while True:
+        display_menu()
+        choice = input("\033[97m🔎 أدخل خيارك: ").strip()
+
+        if choice == "1":
+            install_metasploit()
+        elif choice == "2":
+            install_additional_tools()
+        elif choice == "3":
+            view_log()
+        elif choice == "4":
+            slow_print("👋 إلى اللقاء مع تحيات HATAN HACKER!")
+            log_activity("👋 المستخدم خرج من الأداة - HATAN HACKER")
+            sys.exit()
+        else:
+            print("\033[91m[!] خيار غير صالح. الرجاء اختيار من 1 إلى 4.\n")
+
+if __name__ == "__main__":
+    main()        for رقم, (اسم, وصف) in الادوات.items():
             if اسم != "عودة":
                 print(f"{رقم} - {اسم} - {وصف}")
             else:
