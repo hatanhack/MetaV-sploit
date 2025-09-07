@@ -28,40 +28,106 @@ def display_banner():
     subprocess.run(["pkg", "install", "figlet", "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     os.system("figlet HATAN HACKER")
     print("\033[92m" + "-" * 50)
-    slow_print("🔥 أداة تثبيت Metasploit والأدوات المساعدة 🔥")
-    slow_print("👨‍💻 المطور: HATAN HACKER")
+    slow_print("🔥 Metasploit & Utility Installation Tool 🔥")
+    slow_print("👨‍💻 Developer: HATAN HACKER")
     print("-" * 50)
 
 # Function to display a warning and important notes
 def display_warning():
     print("\033[91m" + "*" * 40)
-    slow_print("⚠️  ملاحظة من HATAN HACKER:")
-    slow_print("🚫 لا تقم بتثبيت أدوات Bash خارجية.")
-    slow_print("✅ تأكد من وجود مساحة وإنترنت جيد.")
-    slow_print("🤖 الأداة موثوقة ومجربة من قبل HATAN HACKER.")
+    slow_print("⚠️ Note from HATAN HACKER:")
+    slow_print("🚫 Do not install external Bash tools.")
+    slow_print("✅ Ensure you have good storage and internet.")
+    slow_print("🤖 This tool is reliable and tested by HATAN HACKER.")
     print("*" * 40 + "\n")
 
 # Function to display the main menu options
 def display_menu():
-    print("\033[96m📋 القائمة الرئيسية:")
-    print("1 - تثبيت Metasploit")
-    print("2 - تثبيت أدوات إضافية")
-    print("3 - عرض سجل التثبيت")
-    print("4 - الخروج\n")
+    print("\033[96m📋 Main Menu:")
+    print("1 - Install Metasploit")
+    print("2 - Install Additional Tools")
+    print("3 - View Installation Log")
+    print("4 - Exit\n")
 
 # Function to handle Metasploit installation
 def install_metasploit():
     clear_screen()
-    slow_print("⏳ جاري تحديث الحزم ...")
+    slow_print("⏳ Updating packages ...")
     os.system("pkg update -y && pkg upgrade -y")
     os.system("pkg install unstable-repo x11-repo -y")
-    slow_print("📦 جاري تثبيت Metasploit ...")
+    slow_print("📦 Installing Metasploit ...")
     os.system("pkg install metasploit -y")
-    slow_print("✅ تم التثبيت بنجاح!")
-    slow_print("🔓 بإشراف وتطوير: HATAN HACKER")
-    log_activity("✅ [Metasploit] تم التثبيت بنجاح بواسطة HATAN HACKER")
-    slow_print("🚀 سيتم تشغيل Metasploit الآن...")
+    slow_print("✅ Installation completed successfully!")
+    slow_print("🔓 Supervised and developed by: HATAN HACKER")
+    log_activity("✅ [Metasploit] Installation completed successfully by HATAN HACKER")
+    slow_print("🚀 Launching Metasploit now...")
     os.system("msfconsole")
+
+# Function to handle installation of additional tools
+def install_additional_tools():
+    tools = {
+        "1": ("nmap", "Network scanning tool"),
+        "2": ("sqlmap", "Database testing tool"),
+        "3": ("hydra", "Password brute-forcing tool"),
+        "4": ("wireshark", "Network packet analyzer"),
+        "5": ("back", "Back")
+    }
+
+    while True:
+        print("\033[95m🔧 Choose a tool to install:\n")
+        for num, (name, desc) in tools.items():
+            if name != "back":
+                print(f"{num} - {name} - {desc}")
+            else:
+                print(f"{num} - Back to Main Menu")
+
+        choice = input("\nEnter the tool number: ").strip()
+
+        if choice in tools and choice != "5":
+            tool_name = tools[choice][0]
+            slow_print(f"📥 Installing {tool_name} ...")
+            os.system(f"pkg install {tool_name} -y")
+            slow_print(f"✅ {tool_name} installed successfully!")
+            log_activity(f"✅ [{tool_name}] Installation completed successfully by HATAN HACKER")
+        elif choice == "5":
+            break
+        else:
+            print("\033[91m[!] Invalid option. Please try again.\n")
+
+# Function to display the installation log
+def view_log():
+    try:
+        with open("installation_log.txt", "r", encoding="utf-8") as f:
+            print("\n📄 Installation Log:\n")
+            print(f.read())
+    except FileNotFoundError:
+        print("\n⚠️ No log found yet.\n")
+
+# Main function of the program
+def main():
+    clear_screen()
+    display_banner()
+    display_warning()
+
+    while True:
+        display_menu()
+        choice = input("\033[97m🔎 Enter your choice: ").strip()
+
+        if choice == "1":
+            install_metasploit()
+        elif choice == "2":
+            install_additional_tools()
+        elif choice == "3":
+            view_log()
+        elif choice == "4":
+            slow_print("👋 Goodbye with regards from HATAN HACKER!")
+            log_activity("👋 User exited the tool - HATAN HACKER")
+            sys.exit()
+        else:
+            print("\033[91m[!] Invalid option. Please choose from 1 to 4.\n")
+
+if __name__ == "__main__":
+    main()
 
 # Function to handle installation of additional tools
 def install_additional_tools():
