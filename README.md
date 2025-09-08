@@ -1,42 +1,47 @@
-# MetaV-sploit
+# 🔥 MetaV-sploit 🔥
 
-أداة **MetaV-sploit** هي سكربت مميز لتثبيت إطار Metasploit وبعض الأدوات المساعدة بسهولة وأمان داخل بيئة **Termux**.  
-تم تطويرها بواسطة **HATAN HACKER** 💻
+**MetaV-sploit** هي أداة بسيطة لتثبيت إطار **Metasploit Framework** وبعض الأدوات المساعدة بسهولة وأمان داخل بيئة **Termux**.  
+تم تطويرها بواسطة **HATAN HACKER** 💻  
 
 ---
 
-## 📌 مميزات الأداة
-- تثبيت إطار **Metasploit** بشكل تلقائي في Termux.
-- تثبيت أدوات إضافية مثل:
-  - **nmap** → أداة فحص الشبكات
-  - **sqlmap** → أداة اختبار قواعد البيانات
-  - **hydra** → أداة تخمين كلمات المرور
-  - **wireshark** → محلل حزم الشبكة
-- حفظ سجل التثبيت في ملف 
-### What is Metasploit
-An open source attack framework first developed by H. D. Moore in 2003.
-Metasploit is used for hacking into systems for testing purposes.
-Metasploit provides useful information to people who perform penetration testing.
-IDS signature development, and exploit research.
+## ✨ مميزات الأداة
+- تثبيت إطار **Metasploit Framework** بشكل تلقائي في Termux.
+- إمكانية تثبيت أدوات إضافية مثل:
+  - **nmap** → أداة لفحص الشبكات.
+  - **sqlmap** → أداة لاختبار قواعد البيانات واكتشاف الثغرات.
+  - **hydra** → أداة لتخمين كلمات المرور (Brute Force).
+  - **wireshark** → أداة لتحليل الحزم الشبكية.
+- حفظ سجل التثبيت لسهولة المراجعة لاحقًا.
 
-## Install Metasploit Framework
-### Termux
-```
-$ apt update
-```
-```
-$ apt install git
-```
-```
-$ git clone https://github.com/hatanhack/MetaV-sploit.git
-```
-```
-$ cd MetaV-sploit
-```
-```
-$ python MetaVsploitinstall.py
-```
-```
-$ python2 MetaVsploit.py
-```
-Now Tool will Guid You
+---
+
+## 📖 ما هو Metasploit؟
+إطار **Metasploit** هو منصة مفتوحة المصدر لاختبار الاختراق، تم تطويرها أول مرة بواسطة **H. D. Moore** سنة 2003.  
+يُستخدم Metasploit في:
+- اختبار الاختراق (Penetration Testing).  
+- تطوير تواقيع أنظمة كشف التسلل (IDS/IPS).  
+- البحث وتطوير الثغرات (Exploit Research).  
+
+---
+
+## ⚙️ خطوات التثبيت (في Termux)
+
+```bash
+# تحديث وترقية الحزم
+apt update -y && apt upgrade -y
+
+# تثبيت أداة git
+pkg install git -y
+
+# نسخ المستودع من GitHub
+git clone https://github.com/hatanhack/MetaV-sploit.git
+
+# الدخول إلى مجلد الأداة
+cd MetaV-sploit
+
+# تشغيل ملف التثبيت (لتثبيت المتطلبات)
+python install.py
+
+# تشغيل الأداة
+python MetaVsploit.py
