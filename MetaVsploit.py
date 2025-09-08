@@ -13,7 +13,7 @@ def slowprint(s):
         time.sleep(5.9 / 100)
 
 print("\033[93m+------------------------------------------------+")
-slowprint("|         Install MSF Without Any Errors         |")
+slowprint("|         Install MSF Without No Errors          |")
 print("+------------------------------------------------+")
 print('''\033[95m
 
@@ -22,19 +22,22 @@ print('''\033[95m
 [*] Metasploit Framework''')
 print("\033[91m                      ")
 print("*********************************************")
-slowprint("|                 [!] Note [!]               |")
-print("|                                            |")
-slowprint("[!] Do not install random bash scripts       |")
-slowprint("[!] Installing wrong scripts may cause errors|")
-slowprint("[!] This is the safest way to install MSF    |")
-slowprint("[!] Welcome from HATAN Hacker                |")
-slowprint("[!] MSF requires ~600MB space and internet   |")
+slowprint("|               [!] Note [!]                |")
+print("|                                           |")
+slowprint("[!] Do Not Install Any Bash tool or script  |")
+slowprint("[!] If You Install Bash Script              |")
+slowprint("[!] You Face Too Many Errors                |")
+slowprint("[!] This is best way to Install MSF         |")
+slowprint("[!] If you got error then                   |")
+slowprint("[!] contact: HATAN Hackr                    |")
+slowprint("[!] Msf Needs ~600MB Space and Data first   |")
 print("*********************************************")
 
 slowprint('''\033[96m
 [01] Install
-[02] Exit
-[03] Update Metasploit ''')
+[02] Run
+[03] Update
+[04] Exit ''')
 print("       ")
 z = input("\033[97mEnter Your Choice : ")
 
@@ -42,34 +45,31 @@ if z == "1":
     os.system("clear")
     slowprint("[#] Collecting Data................................")
     slowprint("[#] Installing ....................................")
-    os.system("apt update -y && apt upgrade -y")
+    os.system("apt update")
+    os.system("apt upgrade -y")
     os.system("figlet Repo Installing")
     os.system("apt install unstable-repo -y")
     os.system("apt install x11-repo -y")
     os.system("figlet Complete")
     os.system("figlet MSF Installing")
-
-    # Install metasploit
-    os.system("pkg install wget -y")
-    os.system("wget https://raw.githubusercontent.com/gushmazuko/metasploit_in_termux/master/metasploit.sh -O metasploit.sh")
-    os.system("chmod +x metasploit.sh")
-    os.system("./metasploit.sh")
-
+    os.system("apt install metasploit -y")
     os.system("figlet MSF Install")
     slowprint("[*] Starting Metasploit Framework Console..............")
     os.system("msfconsole")
 
 elif z == "2":
+    slowprint("[*] Launching Metasploit Console ..........")
+    os.system("msfconsole")
+
+elif z == "3":
+    slowprint("[*] Updating Metasploit and packages ..........")
+    os.system("apt update && apt upgrade -y")
+    os.system("apt install metasploit -y")
+    slowprint("[✓] Update Completed")
+
+elif z == "4":
     slowprint("\033[93mSee You Next Time")
     sys.exit()
 
-elif z == "3":
-    os.system("clear")
-    if os.path.exists("metasploit-framework"):
-        slowprint("[*] Updating Metasploit Framework ....................")
-        os.system("cd metasploit-framework && git pull origin master")
-        slowprint("[✔] Update Complete! You can now run msfconsole.")
-        os.system("msfconsole")
-    else:
-        slowprint("[!] Metasploit is not installed yet.")
-        slowprint("[!] Please run option (1) Install first.")
+else:
+    slowprint("\033[91mInvalid Choice! Please try again.")
