@@ -41,30 +41,51 @@ slowprint('''\033[96m
 print("       ")
 z = input("\033[97mEnter Your Choice : ")
 
+# Detect msfconsole path
+msf_path = os.path.expanduser("~/metasploit-framework/msfconsole")
+msf_update = os.path.expanduser("~/metasploit-framework/msfupdate")
+
 if z == "1":
     os.system("clear")
     slowprint("[#] Collecting Data................................")
     slowprint("[#] Installing ....................................")
-    os.system("apt update")
-    os.system("apt upgrade -y")
+    os.system("apt update && apt upgrade -y")
     os.system("figlet Repo Installing")
     os.system("apt install unstable-repo -y")
     os.system("apt install x11-repo -y")
     os.system("figlet Complete")
     os.system("figlet MSF Installing")
-    os.system("apt install metasploit -y")
+
+    if os.path.exists(msf_path):
+        slowprint("[✓] metasploit-framework already installed. Skipping reinstall.")
+    else:
+        os.system("chmod +x metasploit.sh")
+        os.system("./metasploit.sh")
+
+    # إضافة المسار للـ PATH عشان تقدر تستعمل msfconsole من أي مكان
+    bashrc = os.path.expanduser("~/.bashrc")
+    with open(bashrc, "a") as f:
+        f.write(f"\nexport PATH=$PATH:$HOME/metasploit-framework\n")
+    os.system("source ~/.bashrc")
+
     os.system("figlet MSF Install")
     slowprint("[*] Starting Metasploit Framework Console..............")
-    os.system("msfconsole")
+    os.system(msf_path)
 
 elif z == "2":
     slowprint("[*] Launching Metasploit Console ..........")
-    os.system("msfconsole")
+    if os.path.exists(msf_path):
+        os.system(msf_path)
+    else:
+        slowprint("[✗] Metasploit is not installed! Please choose option 1 first.")
 
 elif z == "3":
     slowprint("[*] Updating Metasploit and packages ..........")
     os.system("apt update && apt upgrade -y")
-    os.system("apt install metasploit -y")
+    if os.path.exists(msf_update):
+        os.system(msf_update)
+    else:
+        os.system(f"{msf_path} -x 'msfupdate; exit'")
     slowprint("[✓] Update Completed")
 
 elif z == "4":
