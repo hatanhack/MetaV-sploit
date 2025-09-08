@@ -33,7 +33,8 @@ print("*********************************************")
 
 slowprint('''\033[96m
 [01] Install
-[02] Exit ''')
+[02] Exit
+[03] Update Metasploit ''')
 print("       ")
 z = input("\033[97mEnter Your Choice : ")
 
@@ -48,7 +49,7 @@ if z == "1":
     os.system("figlet Complete")
     os.system("figlet MSF Installing")
 
-    # Fixed installation (using official script)
+    # Install metasploit
     os.system("pkg install wget -y")
     os.system("wget https://raw.githubusercontent.com/gushmazuko/metasploit_in_termux/master/metasploit.sh -O metasploit.sh")
     os.system("chmod +x metasploit.sh")
@@ -61,3 +62,14 @@ if z == "1":
 elif z == "2":
     slowprint("\033[93mSee You Next Time")
     sys.exit()
+
+elif z == "3":
+    os.system("clear")
+    if os.path.exists("metasploit-framework"):
+        slowprint("[*] Updating Metasploit Framework ....................")
+        os.system("cd metasploit-framework && git pull origin master")
+        slowprint("[✔] Update Complete! You can now run msfconsole.")
+        os.system("msfconsole")
+    else:
+        slowprint("[!] Metasploit is not installed yet.")
+        slowprint("[!] Please run option (1) Install first.")
