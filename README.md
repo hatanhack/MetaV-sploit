@@ -41,7 +41,7 @@ git clone https://github.com/hatanhack/MetaV-sploit.git
 cd MetaV-sploit
 
 # تشغيل ملف التثبيت (لتثبيت المتطلبات)
-python install.py
+python MetaVsploitinstall.py
 
 # تشغيل الأداة
 python MetaVsploit.py
