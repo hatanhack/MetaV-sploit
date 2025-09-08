@@ -1,7 +1,8 @@
 import os
-import time
 import sys
+import time
 import shutil
+import subprocess
 
 # Colors
 GREEN = "\033[92m"
@@ -12,89 +13,74 @@ RED = "\033[91m"
 WHITE = "\033[97m"
 RESET = "\033[0m"
 
-# Clear screen + banner
+# Clear + Banner
 os.system("clear")
-os.system("figlet MSF-Installer")
+os.system("figlet MetaV-sploit")
 
-# Slow print function
 def slowprint(s):
     for c in s + '\n':
         sys.stdout.write(c)
         sys.stdout.flush()
         time.sleep(5.9 / 100)
 
-# Check if metasploit is already installed
-def is_installed():
-    return shutil.which("msfconsole") is not None or os.path.isdir(os.path.expanduser("~/metasploit-framework"))
+# Check if package installed
+def is_package_installed(pkg_name):
+    try:
+        subprocess.run(
+            ["dpkg", "-s", pkg_name],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=True
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
+# Check if msfconsole installed
+def is_msf_installed():
+    return shutil.which("msfconsole") is not None or os.path.isfile(
+        os.path.expanduser("~/metasploit-framework/msfconsole")
+    )
+
+# --- Auto-check & auto-install ---
+if not is_msf_installed():
+    slowprint("[!] Metasploit not found, starting auto-install...")
+    os.system("apt update -y && apt upgrade -y")
+    if not is_package_installed("unstable-repo"):
+        os.system("apt install unstable-repo -y")
+    if not is_package_installed("x11-repo"):
+        os.system("apt install x11-repo -y")
+    os.system("apt install metasploit -y")
+    slowprint("[✓] Metasploit installed successfully!")
+
+# --- Menu ---
 print(YELLOW + "+------------------------------------------------+")
-slowprint("|         Install MSF Without Any Errors         |")
+slowprint("|         MetaV-sploit by HATAN HACKER           |")
 print("+------------------------------------------------+" + RESET)
 
-print(PURPLE + '''
-[*] Unstable Repo
-[*] x11 Repo
-[*] Metasploit Framework
-''' + RESET)
-
-print(RED + "*********************************************")
-slowprint("|                 [!] Note [!]               |")
-print("|                                             |")
-slowprint("[!] Do NOT install random bash scripts        |")
-slowprint("[!] They may cause too many errors            |")
-slowprint("[!] This is the best way to install MSF       |")
-slowprint("[!] Welcome from HATAN Hacker                 |")
-slowprint("[!] MSF requires ~600MB space and data first  |")
-print("*********************************************" + RESET)
-
-# Menu
 slowprint(CYAN + '''
-[01] Install
-[02] Run
-[03] Update
-[04] Exit
+[01] Run
+[02] Update
+[03] Exit
 ''' + RESET)
 
 choice = input(WHITE + "Enter Your Choice : " + RESET)
 
 if choice == "1":
-    if is_installed():
-        slowprint("[✓] Metasploit is already installed. Skipping installation.")
+    path = shutil.which("msfconsole") or os.path.expanduser("~/metasploit-framework/msfconsole")
+    if os.path.isfile(path) or path:
+        slowprint("[*] Launching Metasploit Console...")
+        os.system(path)
     else:
-        os.system("clear")
-        slowprint("[#] Updating packages and preparing repos...")
-        os.system("apt update -y && apt upgrade -y")
-        os.system("apt install unstable-repo -y")
-        os.system("apt install x11-repo -y")
-        os.system("apt install metasploit -y")
-        # Add shortcut
-        with open(os.path.expanduser("~/.bashrc"), "a") as bashrc:
-            bashrc.write("\n# Metasploit shortcut\nalias msf='msfconsole'\n")
-        slowprint("[✓] Metasploit installed successfully!")
-        slowprint("[*] You can now run 'msf' from anywhere.")
-        os.system("bash")  # reload shell with new alias
+        slowprint("[✗] Metasploit not found. Please reinstall.")
 
 elif choice == "2":
-    path = shutil.which("msfconsole")
-    if path:
-        slowprint(f"[*] Found msfconsole at: {path}")
-    else:
-        path = os.path.expanduser("~/metasploit-framework/msfconsole")
-        if os.path.isfile(path):
-            slowprint(f"[*] Found msfconsole at: {path}")
-        else:
-            slowprint("[✗] Metasploit not found! Please install first.")
-            sys.exit()
-    slowprint("[*] Launching Metasploit Console ..........")
-    os.system(path)
-
-elif choice == "3":
-    slowprint("[*] Updating Metasploit and packages ..........")
+    slowprint("[*] Updating system and Metasploit...")
     os.system("apt update -y && apt upgrade -y")
     os.system("apt install metasploit -y")
     slowprint("[✓] Update Completed")
 
-elif choice == "4":
+elif choice == "3":
     slowprint("See You Next Time 👋")
     sys.exit()
 
