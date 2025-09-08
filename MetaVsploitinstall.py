@@ -1,32 +1,34 @@
-# هذا السكربت يقوم بتثبيت المتطلبات الضرورية ثم تشغيل الأداة الأساسية
+# MetaVsploitinstall.py
+# -*- coding: utf-8 -*-
 
 import os
 import sys
 import time
 
-def طباعة_بطيئة(النص, تأخير=0.03):
-    for حرف in النص + '\n':
-        sys.stdout.write(حرف)
+# Slow print effect
+def slow_print(text, delay=0.03):
+    for char in text + '\n':
+        sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(تأخير)
+        time.sleep(delay)
 
-# تثبيت المتطلبات الأساسية لأداة MetaVsploit
-def تثبيت_المتطلبات():
-    طباعة_بطيئة("⏳ جاري تحديث النظام وتثبيت المتطلبات ...")
+# Install requirements
+def install_requirements():
+    slow_print("⏳ Updating system and installing requirements ...")
     os.system("pkg update -y && pkg upgrade -y")
     os.system("pkg install python -y")
     os.system("pkg install figlet -y")
     os.system("pkg install git -y")
-    طباعة_بطيئة("✅ تم التثبيت بنجاح.\n")
+    slow_print("✅ Requirements installed successfully.\n")
 
-# تشغيل ملف الأداة الرئيسي
-def تشغيل_الأداة():
+# Run main tool
+def run_tool():
     if os.path.exists("MetaVsploit.py"):
-        طباعة_بطيئة("🚀 جاري تشغيل أداة MetaVsploit ...")
+        slow_print("🚀 Launching MetaVsploit tool ...")
         os.system("python MetaVsploit.py")
     else:
-        طباعة_بطيئة("❌ لم يتم العثور على ملف MetaVsploit.py في هذا المجلد.")
+        slow_print("❌ MetaVsploit.py not found in this directory.")
 
 if __name__ == "__main__":
-    تثبيت_المتطلبات()
-    تشغيل_الأداة()
+    install_requirements()
+    run_tool()
